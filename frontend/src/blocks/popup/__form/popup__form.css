@@ -1,0 +1,12 @@
+.popup__form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+@media screen and (min-width: 768px) {
+  .popup__form {
+    margin-bottom: 37px;
+  }
+}

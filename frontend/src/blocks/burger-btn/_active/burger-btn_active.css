@@ -1,0 +1,9 @@
+.burger-btn_active {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .burger-btn_active {
+    display: none;
+  }
+}

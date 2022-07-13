@@ -1,0 +1,16 @@
+.header__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  margin-bottom: 31px;
+}
+
+@media screen and (min-width: 768px) {
+  .header__container {
+    flex-direction: row;
+    margin-top: 45px;
+    margin-bottom: 41px;
+  }
+}

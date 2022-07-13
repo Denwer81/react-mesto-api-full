@@ -1,0 +1,17 @@
+.burger-btn__item_close {
+  background-color: transparent;
+}
+
+.burger-btn__item_close::after {
+  width: 30px;
+  transform: rotate(-45deg);
+  top: 0;
+  left: -2.5px;
+}
+
+.burger-btn__item_close::before {
+  width: 30px;
+  transform: rotate(45deg);
+  top: 0;
+  left: -2.5px;
+}
