@@ -76,13 +76,22 @@ class Api {
   }
 }
 
-const api = new Api(
-  {
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
-    headers: {
-      authorization: '78448b42-5868-45d9-8c17-5b242dddd810',
-      'Content-Type': 'application/json'
-    }
-  });
+let jwt = localStorage.getItem('jwt');
+
+
+
+function checkToken() {
+  if (localStorage.getItem('jwt')) {
+    jwt = localStorage.getItem('jwt');
+  }
+}
+
+const api = new Api({
+  baseUrl: 'http://localhost:3000',
+  headers: {
+    'Content-Type': 'application/json',
+    "Authorization": `Bearer ${jwt}`
+  }
+});
 
 export default api;

@@ -33,6 +33,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isResponseOk, setIsResponseOk] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
+  // const [token, setToken] = React.useState('');
   const history = useHistory();
 
   React.useEffect(() => {
@@ -53,14 +54,14 @@ function App() {
   React.useEffect(() => {
     if (loggedIn) {
       api.getInitialCards()
-      .then(cardsData => {
+        .then(cardsData => {
         const formattedCardData = cardsData.map(cardData => {
           return {
             title: cardData.name,
             link: cardData.link,
             cardId: cardData._id,
             likes: cardData.likes,
-            createByUserId: cardData.owner._id,
+            createByUserId: cardData.owner,
           };
         });
         setCards(formattedCardData);
@@ -135,7 +136,7 @@ function App() {
           link: data.link,
           cardId: data._id,
           likes: data.likes,
-          createByUserId: data.owner._id,
+          createByUserId: data.owner,
         };
 
         setCards([formattedCardData, ...cards]);
@@ -173,6 +174,7 @@ function App() {
       .then(res => {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
+          // setToken(res.token);
           setLoggedIn(true);
           setUserEmail(email);
           history.push('/');
@@ -191,8 +193,10 @@ function App() {
 
       validateToken(jwt)
         .then(res => {
+          console.log(res);
+          // setToken(jwt);
           setLoggedIn(true);
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           history.push('/');
         });
     }

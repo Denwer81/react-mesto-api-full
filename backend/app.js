@@ -26,7 +26,7 @@ app.use(helmet());
 
 const allowedCors = [
   'http://localhost:3000',
-  'mesto.om.nomoredomains.xyz',
+  'http://localhost:3001',
 ];
 
 app.use(cors({
