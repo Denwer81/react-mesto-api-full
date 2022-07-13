@@ -12,10 +12,18 @@ import AddCardPopup from './AddCardPopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import InfoTooltip from './InfoTooltip';
 import ImagePopup from './ImagePopup';
-import api from '../utils/Api';
 import ProtectedRoute from './ProtectedRoute ';
 import { register, authorize, validateToken } from '../utils/auth';
 import { lockScroll, unlockScroll } from '../utils/scroll';
+import {
+  getInitialCards,
+  getProfile,
+  editProfile,
+  changeAvatar,
+  addNewCard,
+  deleteCard,
+  likesCard,
+} from '../utils/Api';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -33,12 +41,12 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isResponseOk, setIsResponseOk] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
-  // const [token, setToken] = React.useState('');
+  const [token, setToken] = React.useState('');
   const history = useHistory();
 
   React.useEffect(() => {
     if (loggedIn) { 
-      api.getProfile()
+      getProfile(token)
       .then((userData) => {
         setCurrentUser({
           name: userData.name,
@@ -49,11 +57,12 @@ function App() {
       })
       .catch(err => console.log(err));
     }
+    // eslint-disable-next-line
   }, [loggedIn]);
 
   React.useEffect(() => {
     if (loggedIn) {
-      api.getInitialCards()
+      getInitialCards(token)
         .then(cardsData => {
         const formattedCardData = cardsData.map(cardData => {
           return {
@@ -68,10 +77,11 @@ function App() {
       })
       .catch(err => console.log(err));
     }
+    // eslint-disable-next-line
   }, [loggedIn]);
 
   function handleCardLike(cardId, isLiked) {
-    api.likesCard(cardId, isLiked)
+    likesCard(token, cardId, isLiked)
       .then(data => {
         setCards(cards => cards.map(card => card.cardId === cardId
           ? { ...card, likes: data.likes }
@@ -82,7 +92,7 @@ function App() {
 
   function handleSubmitDeleteForm() {
     setIsLoading(true);
-    api.deleteCard(selectedCard.cardId)
+    deleteCard(token, selectedCard.cardId)
       .then((data) => {
         if (data) {
           setCards(cards => cards.filter(card => card.cardId !== selectedCard.cardId));
@@ -99,7 +109,7 @@ function App() {
 
   function handleSubmitEditForm(userName, userAbout) {
     setIsLoading(true);
-    api.editProfile(userName, userAbout)
+    editProfile(token, userName, userAbout)
       .then(data => {
         setCurrentUser({ ...currentUser, name: data.name, description: data.about });
         handleCloseAllPopup();
@@ -114,7 +124,7 @@ function App() {
 
   function handleSubmitAvatarForm(link) {
     setIsLoading(true);
-    api.changeAvatar(link)
+    changeAvatar(token, link)
       .then(data => {
         setCurrentUser({ ...currentUser, avatar: data.avatar })
         handleCloseAllPopup();
@@ -129,7 +139,7 @@ function App() {
 
   function handleSubmitAddCardForm(name, link) {
     setIsLoading(true);
-    api.addNewCard(name, link)
+    addNewCard(token, name, link)
       .then(data => {
         const formattedCardData = {
           title: data.name,
@@ -174,7 +184,7 @@ function App() {
       .then(res => {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
-          // setToken(res.token);
+          setToken(res.token);
           setLoggedIn(true);
           setUserEmail(email);
           history.push('/');
@@ -194,7 +204,7 @@ function App() {
       validateToken(jwt)
         .then(res => {
           console.log(res);
-          // setToken(jwt);
+          setToken(jwt);
           setLoggedIn(true);
           setUserEmail(res.email);
           history.push('/');
@@ -204,6 +214,7 @@ function App() {
 
   React.useEffect(() => {
     checkToken();
+    // eslint-disable-next-line
   }, []);
 
   function handleSignOut() {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { isEmail } = require('validator');
-const { urlRegex } = require('../regex/regex');
+const { urlRegex } = require('../const/regex');
 
 const AuthError = require('../errors/AuthErrors');
 

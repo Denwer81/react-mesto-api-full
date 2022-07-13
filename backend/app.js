@@ -1,13 +1,15 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { celebrate, errors } = require('celebrate');
 const cors = require('cors');
 
-// const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
 const { signUpValidtion, signInValidation } = require('./validation/JoiValidation');
+const allowedCors = require('./const/allowedCors');
 const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -21,13 +23,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(express.json());
 
-// app.use(cors);
 app.use(helmet());
-
-const allowedCors = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-];
 
 app.use(cors({
   origin: allowedCors,
@@ -35,6 +31,12 @@ app.use(cors({
 }));
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', celebrate(signInValidation), login);
 app.post('/signup', celebrate(signUpValidtion), createUser);

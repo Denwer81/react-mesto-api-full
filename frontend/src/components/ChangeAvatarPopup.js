@@ -14,9 +14,9 @@ function ChangeAvatar({ isOpen, closePopup, onSubmitForm, isLoading, handleInput
     if (isOpen) {
       setTimeout(() => {
         inputAvatar.current.value = '';
-      }, 300)
+      }, 300);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   return (
     <PopupWithForm
