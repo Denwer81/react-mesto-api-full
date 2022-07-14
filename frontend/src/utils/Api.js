@@ -1,4 +1,4 @@
-const baseUrl = 'http://api.denwer.nomoredomains.xyz';
+const baseUrl = 'https://api.denwer.nomoredomains.xyz';
 const headers = (token) => {
   return {
     'Content-Type': 'application/json',
