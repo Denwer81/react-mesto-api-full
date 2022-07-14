@@ -1,4 +1,4 @@
-const baseUrl = 'https://denwer.nomoredomains.xyz';
+const baseUrl = 'http://api.denwer.nomoredomains.xyz';
 
 function checkResponse(res) {
   if (res.ok) {
