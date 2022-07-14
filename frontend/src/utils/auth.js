@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'https://denwer.nomoredomains.xyz';
 
 function checkResponse(res) {
   if (res.ok) {

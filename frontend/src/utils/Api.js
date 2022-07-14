@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'https://denwer.nomoredomains.xyz';
 const headers = (token) => {
   return {
     'Content-Type': 'application/json',
